@@ -1,0 +1,18 @@
+version: '{build}'
+pull_requests:
+  do_not_increment_build_number: true
+image: Visual Studio 2017
+nuget:
+  disable_publish_on_pr: true
+build_script:
+  - ps: .\build.ps1
+test: off
+init:
+  - git config --global core.autocrlf input
+environment:
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+  DOTNET_CLI_TELEMETRY_OPTOUT: true
+  CI: true
+artifacts:
+- path: .\src\StartupModules\artifacts\**\*.nupkg
+  name: NuGet

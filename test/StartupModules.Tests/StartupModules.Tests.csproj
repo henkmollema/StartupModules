@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\StartupModules\StartupModules.csproj" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="2.1.0" />
+    <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="2.1.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.7.2" />
+    <PackageReference Include="xunit" Version="2.3.1" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.3.1" />
+    <PackageReference Include="Microsoft.AspNetCore.App" Version="2.1.0" />
+  </ItemGroup>
+</Project>
