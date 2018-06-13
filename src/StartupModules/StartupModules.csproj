@@ -2,7 +2,16 @@
   <PropertyGroup>
     <VersionPrefix>0.1.0</VersionPrefix>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <Authors>Henk Mollema</Authors>
+    <Description>Startup modules for ASP.NET Core.</Description>
+    <Copyright>Copyright © Henk Mollema 2018</Copyright>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <PackageTags>aspnetcore;startup;dependency injection;modules;modular</PackageTags>
+    <PackageProjectUrl>https://github.com/henkmollema/StartupModules</PackageProjectUrl>
+    <PackageLicenseUrl>https://github.com/henkmollema/StartupModules/blob/master/LICENSE</PackageLicenseUrl>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/henkmollema/StartupModules</RepositoryUrl>
+    <DebugType>embedded</DebugType>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <ItemGroup>
