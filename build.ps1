@@ -30,7 +30,7 @@ exec { & dotnet test -c Release --no-build }
 Pop-Location
 
 if ($env:APPVEYOR_BUILD_NUMBER) {
-    $versionSuffix = "{0:00000}" -f [convert]::ToInt32("0" + $env:APPVEYOR_BUILD_NUMBER, 10)
+    $versionSuffix = "ci-{0:00000}" -f [convert]::ToInt32("0" + $env:APPVEYOR_BUILD_NUMBER, 10)
 }
 else {
     $versionSuffix = $suffix
