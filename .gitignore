@@ -6,6 +6,7 @@ artifacts/
 pack/
 PublishProfiles/
 .vs/
+.vscode/
 debugSettings.json
 project.lock.json
 *.user
