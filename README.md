@@ -3,6 +3,10 @@ Startup modules for ASP.NET Core.
 
 Create modular and focused Startup-like classes for each of your application's features/components/modules and keep your startup file sane.
 
+| Windows | Linux | NuGet |
+| ------- | ----- | ----- |
+| [![Windows](https://ci.appveyor.com/api/projects/status/jq76jr3b5cmxs5v6/branch/master?svg=true)](https://ci.appveyor.com/project/henkmollema/startupmodules/branch/master) | [![Linux](https://travis-ci.org/henkmollema/StartupModules.svg?branch=master)](https://travis-ci.org/henkmollema/StartupModules) | [![NuGet](https://img.shields.io/nuget/vpre/StartupModules.svg?style=flat-square)](https://www.nuget.org/packages/StartupModules) 
+
 ## Installation
 
 #### StartupModules is [available on NuGet](https://www.nuget.org/packages/StartupModules) for ASP.NET Core 2.1.
@@ -61,7 +65,7 @@ You can have more control of the configuration using the overload with the optio
 })
 ```
 
-More docs will follow later. Also take a look [at the test web app](https://github.com/henkmollema/StartupModules/tree/master/test/TestWebApp) for more examples.
+More docs will follow later.
 
 ### Application Initializers
 Application initializers allow you to write startup logic for your application, such as configuring your Entity Framework database context and executing migrations. Applications initializers are, just like startup modules, discovered automatically as well.
