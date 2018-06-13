@@ -14,7 +14,7 @@ namespace TestWebApp
         {
             if (context.HostingEnvironment.IsDevelopment())
             {
-
+                // Do something based on this
             }
 
             services.AddHangfireContrib(c => c.UseMemoryStorage());
