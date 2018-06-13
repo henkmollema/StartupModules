@@ -6,18 +6,21 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
-namespace StartupModules
+namespace StartupModules.Internal
 {
     /// <summary>
     /// A startup filter that invokes <see cref="IStartupModule"/>s and <see cref="IApplicationInitializer"/>s.
     /// </summary>
-    internal class ModulesStartupFilter : IStartupFilter
+    public class ModulesStartupFilter : IStartupFilter
     {
         private readonly StartupModulesOptions _options;
         private readonly IConfiguration _configuration;
         private readonly IHostingEnvironment _hostingEnvironment;
         private readonly ILogger<ModulesStartupFilter> _logger;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ModulesStartupFilter"/> class.
+        /// </summary>
         public ModulesStartupFilter(StartupModulesOptions options, IConfiguration configuration, IHostingEnvironment hostingEnvironment, ILogger<ModulesStartupFilter> logger)
         {
             _options = options;
@@ -26,6 +29,7 @@ namespace StartupModules
             _logger = logger;
         }
 
+        /// <inheritdoc/>
         public Action<IApplicationBuilder> Configure(Action<IApplicationBuilder> next) => app =>
         {
             next(app);

@@ -11,10 +11,10 @@ namespace StartupModules.Tests
     public class FunctionalTests
     {
         [Fact]
-        public async Task Test()
+        public async Task ConfiguresServicesAndMiddleware()
         {
             var webHostBuilder = new WebHostBuilder()
-                .UseStartupModules(typeof(FunctionalTests).Assembly)
+                .UseStartupModules(c => c.AddStartupModule<FooStartupModule>())
                 .Configure(_ => { });
 
             using (var server = new TestServer(webHostBuilder))
@@ -29,11 +29,6 @@ namespace StartupModules.Tests
 
     public class FooStartupModule : IStartupModule
     {
-        //public FooStartupModule(string s)
-        //{
-
-        //}
-
         public void ConfigureServices(IServiceCollection services, ConfigureServicesContext context)
         {
             services.AddSingleton<MessageProvider>();

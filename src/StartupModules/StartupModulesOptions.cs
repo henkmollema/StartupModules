@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Microsoft.AspNetCore.Builder;
+using StartupModules.Internal;
 
 namespace StartupModules
 {
@@ -40,7 +41,7 @@ namespace StartupModules
             {
                 if (typeof(IStartupModule).IsAssignableFrom(type))
                 {
-                    var instance = Activate<IStartupModule>(type);
+                    var instance = Activate(type);
                     StartupModules.Add(instance);
                 }
                 else if (typeof(IApplicationInitializer).IsAssignableFrom(type))
@@ -75,13 +76,14 @@ namespace StartupModules
         {
             if (typeof(IStartupModule).IsAssignableFrom(type))
             {
-                var instance = Activate<IStartupModule>(type);
+                var instance = Activate(type);
                 StartupModules.Add(instance);
             }
             else
             {
-                throw new InvalidOperationException(
-                    $"Specified startup module '{type.Name}' does not implement {nameof(IStartupModule)}.");
+                throw new ArgumentException(
+                    $"Specified startup module '{type.Name}' does not implement {nameof(IStartupModule)}.",
+                    nameof(type));
             }
         }
 
@@ -92,15 +94,15 @@ namespace StartupModules
         public void ConfigureMiddleware(Action<IApplicationBuilder, ConfigureMiddlewareContext> action) =>
             StartupModules.Add(new InlineMiddlewareConfiguration(action));
 
-        private T Activate<T>(Type type)
+        private IStartupModule Activate(Type type)
         {
             try
             {
-                return (T)Activator.CreateInstance(type);
+                return (IStartupModule)Activator.CreateInstance(type);
             }
             catch (Exception ex)
             {
-                throw new InvalidOperationException($"Failed to create instance for {typeof(T).Name} type '{type.Name}'.", ex);
+                throw new InvalidOperationException($"Failed to create instance for {nameof(IStartupModule)} type '{type.Name}'.", ex);
             }
         }
     }

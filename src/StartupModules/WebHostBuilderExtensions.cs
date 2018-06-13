@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Linq;
 using System.Reflection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
+using StartupModules.Internal;
 
 namespace StartupModules
 {
@@ -41,8 +41,20 @@ namespace StartupModules
                 throw new ArgumentNullException(nameof(builder));
             }
 
+            if (configure == null)
+            {
+                throw new ArgumentNullException(nameof(configure));
+            }
+
             var options = new StartupModulesOptions();
             configure(options);
+
+            if (options.StartupModules.Count == 0 &&
+                options.ApplicationInitializers.Count == 0)
+            {
+                // Nothing to do here
+                return builder;
+            }
 
             builder.ConfigureServices((hostContext, services) =>
             {

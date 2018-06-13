@@ -19,3 +19,5 @@ nuget.exe
 *.sln.ide
 .build/
 *.ldf
+/test/StartupModules.Tests/coverage
+/test/StartupModules.Tests/coverage.json

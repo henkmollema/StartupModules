@@ -11,7 +11,7 @@ namespace StartupModules
         /// <summary>
         /// Gets the application <see cref="IConfiguration"/> instance.
         /// </summary>
-        public IConfiguration Configuration { get; set;  }
+        public IConfiguration Configuration { get; set; }
 
         /// <summary>
         /// Gets the application <see cref="IHostingEnvironment"/> instance.
