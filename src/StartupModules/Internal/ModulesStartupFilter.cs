@@ -32,8 +32,6 @@ namespace StartupModules.Internal
         /// <inheritdoc/>
         public Action<IApplicationBuilder> Configure(Action<IApplicationBuilder> next) => app =>
         {
-            next(app);
-
             using (var scope = app.ApplicationServices.CreateScope())
             {
                 // Create a middleware configuration context with a scoped service provider
@@ -80,6 +78,8 @@ namespace StartupModules.Internal
                     }
                 }
             }
+
+            next(app);
         };
     }
 }
