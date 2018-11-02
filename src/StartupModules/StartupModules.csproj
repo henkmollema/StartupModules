@@ -11,7 +11,7 @@
     <PackageLicenseUrl>https://github.com/henkmollema/StartupModules/blob/master/LICENSE</PackageLicenseUrl>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/henkmollema/StartupModules</RepositoryUrl>
-    <DebugType>embedded</DebugType>
+    <DebugType>full</DebugType>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <ItemGroup>

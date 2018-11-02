@@ -22,3 +22,4 @@ nuget.exe
 *.ldf
 /test/StartupModules.Tests/coverage
 /test/StartupModules.Tests/coverage.json
+test/StartupModules.Tests/coverage.opencover.xml

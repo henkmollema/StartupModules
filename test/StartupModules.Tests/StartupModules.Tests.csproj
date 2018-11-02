@@ -5,7 +5,12 @@
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\StartupModules\StartupModules.csproj" />
-    <PackageReference Include="coverlet.msbuild" Version="1.2.0" />
+    <!--
+      Create CodeCoverage report with: 
+      dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
+      reportgenerator -reports:coverage.opencover.xml
+    -->
+    <PackageReference Include="coverlet.msbuild" Version="2.3.1" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="2.1.3" />
     <PackageReference Include="Microsoft.AspNetCore.TestHost" Version="2.1.1" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.9.0" />
