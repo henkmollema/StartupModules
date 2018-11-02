@@ -15,7 +15,7 @@ Create modular and focused Startup-like classes for each of your application's f
 
 ### Create a startup module
 
-Creating a startup module is easy. Create a new class and inherit from the `IStartupModule` interface:
+Creating a startup module is easy. Create a new class and implement the `IStartupModule` interface:
 
 ```cs
 public class MyStartupModule : IStartupModule
@@ -65,7 +65,6 @@ You can have more control of the configuration using the overload with the optio
 })
 ```
 
-More docs will follow later.
 
 ### Application Initializers
 Application initializers allow you to write startup logic for your application, such as configuring your Entity Framework database context and executing migrations. Applications initializers are, just like startup modules, discovered automatically as well.

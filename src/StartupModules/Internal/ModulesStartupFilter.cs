@@ -9,7 +9,7 @@ using Microsoft.Extensions.Logging;
 namespace StartupModules.Internal
 {
     /// <summary>
-    /// A startup filter that invokes <see cref="IStartupModule"/>s and <see cref="IApplicationInitializer"/>s.
+    /// A startup filter that invokes the configured <see cref="IStartupModule"/> and <see cref="IApplicationInitializer"/> services.
     /// </summary>
     public class ModulesStartupFilter : IStartupFilter
     {
@@ -46,8 +46,13 @@ namespace StartupModules.Internal
                 foreach (var module in _options.StartupModules)
                 {
                     // Invoke the callback to configure middleware
-                    _logger.LogInformation("Invoking the configure middleware callback for startup module {StartupModuleName}", module.GetType().Name);
                     module.Configure(app, ctx);
+                }
+
+                if (_logger.IsEnabled(LogLevel.Information))
+                {
+                    _logger.LogInformation("Invoked {StartupModuleCount} startup modules: {StartupModules}",
+                        _options.StartupModules.Count, string.Join(", ", _options.StartupModules.Select(s => s.GetType().Name)));
                 }
 
                 var applicationInitializers = _options.ApplicationInitializers
@@ -69,7 +74,11 @@ namespace StartupModules.Internal
                 {
                     try
                     {
-                        _logger.LogInformation("Invoking application initializer {ApplicationInitializerName}", initializer.GetType().Name);
+                        if (_logger.IsEnabled(LogLevel.Information))
+                        {
+                            _logger.LogInformation("Invoking application initializer {ApplicationInitializerName}", initializer.GetType().Name);
+                        }
+
                         initializer.Invoke().GetAwaiter().GetResult();
                     }
                     catch (Exception ex)
