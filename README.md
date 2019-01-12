@@ -30,7 +30,7 @@ public class MyStartupModule : IStartupModule
 }
 ```
 
-You'll notice the familiair `ConfigureServices` and `Configure` method. A convient context-object is passed to both of them providing useful services while configuring your application, such as `IHostingEnvironment` and `IConfiguration`. A scoped `IServiceProvider` is present in the `ConfigureMiddlewareContext` as well.
+You'll notice the familiair `ConfigureServices` and `Configure` methods. A convient context-object is passed to both of them providing useful services while configuring your application, such as `IHostingEnvironment` and `IConfiguration`. A scoped `IServiceProvider` is present in the `ConfigureMiddlewareContext` as well.
 
 ### Configure startup modules
 
@@ -43,7 +43,7 @@ public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
         .UseStartup<Startup>();
 ```
 
-This will automatically discover startup modules (and application initializer) in the entry assembly of your application. You can also specify an array of assemblies to discover startup modules from:
+This will automatically discover startup modules (and application initializers) in the entry assembly of your application. You can also specify an array of assemblies to discover startup modules from:
 
 ```cs
 .UseStartupModules(typeof(Startup).Assembly, typeof(SomeTypeInAnotherAssembly).Assembly)
@@ -67,7 +67,7 @@ You can have more control of the configuration using the overload with the optio
 
 
 ### Application Initializers
-Application initializers allow you to write startup logic for your application, such as configuring your Entity Framework database context and executing migrations. Applications initializers are, just like startup modules, discovered automatically as well.
+Application initializers allow you to write asynchronous startup logic for your application, such as configuring your Entity Framework database context and executing migrations. Applications initializers are, just like startup modules, discovered automatically as well.
 
 ```cs
 public class DatabaseInitializer : IApplicationInitializer
