@@ -87,7 +87,7 @@ namespace StartupModules.Tests
         // Internal to avoid automatic discovery
         internal class StartupModuleWithCtor : IStartupModule
         {
-            public StartupModuleWithCtor(object o) { }
+            public StartupModuleWithCtor(object _) { }
 
             public void Configure(IApplicationBuilder app, ConfigureMiddlewareContext context) => throw new NotImplementedException();
             public void ConfigureServices(IServiceCollection services, ConfigureServicesContext context) => throw new NotImplementedException();

@@ -49,16 +49,16 @@ namespace StartupModules
             var options = new StartupModulesOptions();
             configure(options);
 
-            if (options.StartupModules.Count == 0 &&
-                options.ApplicationInitializers.Count == 0)
+            if (options.StartupModules.Count == 0 && options.ApplicationInitializers.Count == 0)
             {
                 // Nothing to do here
                 return builder;
             }
 
+            var runner = new StartupModuleRunner(options);
             builder.ConfigureServices((hostContext, services) =>
             {
-                services.AddSingleton<IStartupFilter>(sp => ActivatorUtilities.CreateInstance<ModulesStartupFilter>(sp, options));
+                services.AddSingleton<IStartupFilter>(sp => ActivatorUtilities.CreateInstance<ModulesStartupFilter>(sp, runner));
 
                 var configureServicesContext = new ConfigureServicesContext
                 {
@@ -66,10 +66,7 @@ namespace StartupModules
                     HostingEnvironment = hostContext.HostingEnvironment
                 };
 
-                foreach (var cfg in options.StartupModules)
-                {
-                    cfg.ConfigureServices(services, configureServicesContext);
-                }
+                runner.ConfigureServices(services, hostContext.Configuration, hostContext.HostingEnvironment);
             });
 
             return builder;
