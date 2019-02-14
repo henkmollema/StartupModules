@@ -1,7 +1,7 @@
 language: csharp
 mono: none
 dotnet: 2.2
-dist: trusty
+dist: xenial
 env:
   global:
     - DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
@@ -10,7 +10,7 @@ os:
   - linux
   - osx
 osx_image: xcode8.3
-before_script:
-  - chmod +x ./build.sh
 script:
-  - ./build.sh
+    - dotnet restore
+    - dotnet build
+    - dotnet test test/StartupModules.Tests
