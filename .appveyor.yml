@@ -15,6 +15,9 @@ environment:
   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
   DOTNET_CLI_TELEMETRY_OPTOUT: true
   CI: true
+branches:
+  only:
+    - master
 artifacts:
 - path: .\src\StartupModules\artifacts\**\*.nupkg
   name: NuGet
