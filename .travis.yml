@@ -12,13 +12,10 @@ branches:
 script:
   - chmod +x travis.sh
   - ./travis.sh
-  - dotnet restore
-  - dotnet build
-  - dotnet test test/StartupModules.Tests
-matrix:
-  include:
-    - os: linux
-      dist: xenial
-    - os: osx
-      dotnet: 2.2
-      osx_image: xcode10.1
+# matrix:
+#   include:
+#     - os: linux
+#       dist: xenial
+#     - os: osx
+#       dotnet: 2.2
+#       osx_image: xcode10.1

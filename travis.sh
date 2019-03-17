@@ -4,3 +4,6 @@ export DOTNET_ROOT=$HOME/dotnet
 export PATH=$HOME/dotnet:$PATH
 
 dotnet --info
+dotnet restore
+dotnet build
+dotnet test test/StartupModules.Tests
