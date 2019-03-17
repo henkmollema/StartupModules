@@ -15,9 +15,9 @@ namespace StartupModules
         public IConfiguration Configuration { get; set; }
 
         /// <summary>
-        /// Gets the application <see cref="IHostingEnvironment"/> instance.
+        /// Gets the application <see cref="IWebHostEnvironment"/> instance.
         /// </summary>
-        public IHostingEnvironment HostingEnvironment { get; set; }
+        public IWebHostEnvironment WebHostEnvironment { get; set; }
 
         /// <summary>
         /// Gets the <see cref="IServiceProvider"/> instance scoped for the lifetime of application startup.

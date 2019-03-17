@@ -28,12 +28,12 @@ namespace StartupModules
         /// Calls <see cref="IStartupModule.ConfigureServices(IServiceCollection, ConfigureServicesContext)"/> on the
         /// discoverd <see cref="IStartupModule"/>'s.
         /// </summary>
-        public void ConfigureServices(IServiceCollection services, IConfiguration configuration, IHostingEnvironment hostingEnvironment)
+        public void ConfigureServices(IServiceCollection services, IConfiguration configuration, IWebHostEnvironment webHostEnvironment)
         {
             var ctx = new ConfigureServicesContext
             {
                 Configuration = configuration,
-                HostingEnvironment = hostingEnvironment
+                WebHostEnvironment = webHostEnvironment
             };
 
             foreach (var cfg in _options.StartupModules)
@@ -46,14 +46,14 @@ namespace StartupModules
         /// Calls <see cref="IStartupModule.Configure(IApplicationBuilder, ConfigureMiddlewareContext)"/> on the 
         /// discovered <see cref="IStartupModule"/>.
         /// </summary>
-        public void Configure(IApplicationBuilder app, IConfiguration configuration, IHostingEnvironment hostingEnvironment)
+        public void Configure(IApplicationBuilder app, IConfiguration configuration, IWebHostEnvironment webHostEnvironment)
         {
             using (var scope = app.ApplicationServices.CreateScope())
             {
                 var ctx = new ConfigureMiddlewareContext
                 {
                     Configuration = configuration,
-                    HostingEnvironment = hostingEnvironment,
+                    WebHostEnvironment = webHostEnvironment,
                     ServiceProvider = scope.ServiceProvider
                 };
 

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
 
 namespace StartupModules.Internal
 {
@@ -12,22 +13,22 @@ namespace StartupModules.Internal
     {
         private readonly StartupModuleRunner _runner;
         private readonly IConfiguration _configuration;
-        private readonly IHostingEnvironment _hostingEnvironment;
+        private readonly IWebHostEnvironment _webHostEnvironment;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ModulesStartupFilter"/> class.
         /// </summary>
-        public ModulesStartupFilter(StartupModuleRunner runner, IConfiguration configuration, IHostingEnvironment hostingEnvironment)
+        public ModulesStartupFilter(StartupModuleRunner runner, IConfiguration configuration, IWebHostEnvironment webHostEnvironment)
         {
             _runner = runner;
             _configuration = configuration;
-            _hostingEnvironment = hostingEnvironment;
+            _webHostEnvironment = webHostEnvironment;
         }
 
         /// <inheritdoc/>
         public Action<IApplicationBuilder> Configure(Action<IApplicationBuilder> next) => app =>
         {
-            _runner.Configure(app, _configuration, _hostingEnvironment);
+            _runner.Configure(app, _configuration, _webHostEnvironment);
             _runner.RunApplicationInitializers(app.ApplicationServices).GetAwaiter().GetResult();
             next(app);
         };

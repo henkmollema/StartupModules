@@ -5,9 +5,6 @@ namespace TestWebApp
 {
     public class FooAppInitializer : IApplicationInitializer
     {
-        public Task Invoke()
-        {
-            return Task.CompletedTask;
-        }
+        public Task Invoke() => Task.CompletedTask;
     }
 }

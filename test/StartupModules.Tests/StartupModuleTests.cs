@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Xunit;
 
 namespace StartupModules.Tests
@@ -63,7 +64,7 @@ namespace StartupModules.Tests
                 Assert.NotNull(services);
                 Assert.NotNull(context);
                 Assert.NotNull(context.Configuration);
-                Assert.NotNull(context.HostingEnvironment);
+                Assert.NotNull(context.WebHostEnvironment);
             }
 
             public void Configure(IApplicationBuilder app, ConfigureMiddlewareContext context)
@@ -71,16 +72,16 @@ namespace StartupModules.Tests
                 Assert.NotNull(app);
                 Assert.NotNull(context);
                 Assert.NotNull(context.Configuration);
-                Assert.NotNull(context.HostingEnvironment);
+                Assert.NotNull(context.WebHostEnvironment);
                 Assert.NotNull(context.ServiceProvider);
             }
         }
 
         public class FooApplicationInitializer : IApplicationInitializer
         {
-            private readonly IApplicationLifetime _applicationLifetime;
+            private readonly IHostApplicationLifetime _applicationLifetime;
 
-            public FooApplicationInitializer(IApplicationLifetime applicationLifetime)
+            public FooApplicationInitializer(IHostApplicationLifetime applicationLifetime)
             {
                 _applicationLifetime = applicationLifetime;
             }

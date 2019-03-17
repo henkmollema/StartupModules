@@ -63,7 +63,7 @@ namespace StartupModules
                 var configureServicesContext = new ConfigureServicesContext
                 {
                     Configuration = hostContext.Configuration,
-                    HostingEnvironment = hostContext.HostingEnvironment
+                    WebHostEnvironment = hostContext.HostingEnvironment
                 };
 
                 runner.ConfigureServices(services, hostContext.Configuration, hostContext.HostingEnvironment);
