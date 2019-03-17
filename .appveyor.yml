@@ -7,7 +7,8 @@ nuget:
 build_script:
   - cmd: dotnet restore
   - cmd: dotnet build
-  - cmd: dotnet test test/StartupModules.Tests
+  - cmd: dotnet test .\test\StartupModules.Tests
+  - cmd: dotnet pack .\src\StartupModules -c Release -o .\artifacts
 test: off
 init:
   - git config --global core.autocrlf input
