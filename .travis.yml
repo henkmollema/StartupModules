@@ -11,7 +11,7 @@ branches:
     - master
 script:
   - chmod +x travis.sh
-  - travis.sh
+  - ./travis.sh
   - dotnet restore
   - dotnet build
   - dotnet test test/StartupModules.Tests
