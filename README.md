@@ -1,15 +1,17 @@
-# StartupModules
+# Startup Modules
 Startup modules for ASP.NET Core.
 
 Create modular and focused Startup-like classes for each of your application's features/components/modules and keep your startup file sane.
 
 | Windows | Linux | NuGet |
 | ------- | ----- | ----- |
-| [![Windows](https://ci.appveyor.com/api/projects/status/jq76jr3b5cmxs5v6/branch/master?svg=true)](https://ci.appveyor.com/project/henkmollema/startupmodules/branch/master) | [![Linux](https://travis-ci.org/henkmollema/StartupModules.svg?branch=master)](https://travis-ci.org/henkmollema/StartupModules) | [![NuGet](https://img.shields.io/nuget/vpre/StartupModules.svg?style=flat-square)](https://www.nuget.org/packages/StartupModules) 
+| [![Windows](https://ci.appveyor.com/api/projects/status/jq76jr3b5cmxs5v6/branch/master?svg=true)](https://ci.appveyor.com/project/henkmollema/startupmodules/branch/master) | [![Linux](https://travis-ci.org/henkmollema/StartupModules.svg?branch=master)](https://travis-ci.org/henkmollema/StartupModules) | [![NuGet](https://img.shields.io/nuget/v/StartupModules.svg?style=flat-square)](https://www.nuget.org/packages/StartupModules) 
 
 ## Installation
 
-#### StartupModules is [available on NuGet](https://www.nuget.org/packages/StartupModules) for ASP.NET Core 2.1.
+#### StartupModules is [available on NuGet](https://www.nuget.org/packages/StartupModules) for ASP.NET Core 2.2.
+
+> Use the 2.0 builds for .NET Core 3 support.
 
 ## Getting started
 
@@ -64,7 +66,6 @@ You can have more control of the configuration using the overload with the optio
     o.AddStartupModule<MyStartupModule>();
 })
 ```
-
 
 ### Application Initializers
 Application initializers allow you to write asynchronous startup logic for your application, such as configuring your Entity Framework database context and executing migrations. Applications initializers are, just like startup modules, discovered automatically as well.
