@@ -25,7 +25,7 @@ namespace StartupModules
         /// <summary>
         /// Discovers <see cref="IStartupModule"/> implementations from the entry assembly of the application.
         /// </summary>
-        public void DiscoverStartupModules() => DiscoverStartupModules(Assembly.GetEntryAssembly());
+        public void DiscoverStartupModules() => DiscoverStartupModules(Assembly.GetEntryAssembly()!);
 
         /// <summary>
         /// Discovers <see cref="IStartupModule"/> implementations from the specified assemblies.
@@ -98,7 +98,7 @@ namespace StartupModules
         {
             try
             {
-                return (IStartupModule)Activator.CreateInstance(type);
+                return (IStartupModule)Activator.CreateInstance(type)!;
             }
             catch (Exception ex)
             {

@@ -17,13 +17,11 @@ namespace StartupModules.Tests
                 .UseStartupModules(c => c.AddStartupModule<FooStartupModule>())
                 .Configure(_ => { });
 
-            using (var server = new TestServer(webHostBuilder))
-            {
-                var client = server.CreateClient();
-                var msg = await client.GetStringAsync("/message");
+            using var server = new TestServer(webHostBuilder);
+            var client = server.CreateClient();
+            var msg = await client.GetStringAsync("/message");
 
-                Assert.Equal("Hello, World!", msg);
-            }
+            Assert.Equal("Hello, World!", msg);
         }
     }
 

@@ -28,13 +28,13 @@ namespace StartupModules
         /// Calls <see cref="IStartupModule.ConfigureServices(IServiceCollection, ConfigureServicesContext)"/> on the
         /// discoverd <see cref="IStartupModule"/>'s.
         /// </summary>
+#if NETSTANDARD2_0
         public void ConfigureServices(IServiceCollection services, IConfiguration configuration, IHostingEnvironment hostingEnvironment)
+#elif NETCOREAPP3_0
+        public void ConfigureServices(IServiceCollection services, IConfiguration configuration, IWebHostEnvironment hostingEnvironment)
+#endif
         {
-            var ctx = new ConfigureServicesContext
-            {
-                Configuration = configuration,
-                HostingEnvironment = hostingEnvironment
-            };
+            var ctx = new ConfigureServicesContext(configuration, hostingEnvironment);
 
             foreach (var cfg in _options.StartupModules)
             {
@@ -46,21 +46,17 @@ namespace StartupModules
         /// Calls <see cref="IStartupModule.Configure(IApplicationBuilder, ConfigureMiddlewareContext)"/> on the 
         /// discovered <see cref="IStartupModule"/>.
         /// </summary>
+#if NETSTANDARD2_0
         public void Configure(IApplicationBuilder app, IConfiguration configuration, IHostingEnvironment hostingEnvironment)
+#elif NETCOREAPP3_0
+        public void Configure(IApplicationBuilder app, IConfiguration configuration, IWebHostEnvironment hostingEnvironment)
+#endif
         {
-            using (var scope = app.ApplicationServices.CreateScope())
+            using var scope = app.ApplicationServices.CreateScope();
+            var ctx = new ConfigureMiddlewareContext(configuration, hostingEnvironment, scope.ServiceProvider);
+            foreach (var cfg in _options.StartupModules)
             {
-                var ctx = new ConfigureMiddlewareContext
-                {
-                    Configuration = configuration,
-                    HostingEnvironment = hostingEnvironment,
-                    ServiceProvider = scope.ServiceProvider
-                };
-
-                foreach (var cfg in _options.StartupModules)
-                {
-                    cfg.Configure(app, ctx);
-                }
+                cfg.Configure(app, ctx);
             }
         }
 
@@ -70,9 +66,8 @@ namespace StartupModules
         /// <param name="serviceProvider">The application's root service provider.</param>
         public async Task RunApplicationInitializers(IServiceProvider serviceProvider)
         {
-            using (var scope = serviceProvider.CreateScope())
-            {
-                var applicationInitializers = _options.ApplicationInitializers
+            using var scope = serviceProvider.CreateScope();
+            var applicationInitializers = _options.ApplicationInitializers
                 .Select(t =>
                 {
                     try
@@ -86,16 +81,15 @@ namespace StartupModules
                 })
                 .Cast<IApplicationInitializer>();
 
-                foreach (var initializer in applicationInitializers)
+            foreach (var initializer in applicationInitializers)
+            {
+                try
                 {
-                    try
-                    {
-                        await initializer.Invoke();
-                    }
-                    catch (Exception ex)
-                    {
-                        throw new InvalidOperationException($"An exception occured during the execution of {nameof(IApplicationInitializer)} '{initializer.GetType().Name}'.", ex);
-                    }
+                    await initializer.Invoke();
+                }
+                catch (Exception ex)
+                {
+                    throw new InvalidOperationException($"An exception occured during the execution of {nameof(IApplicationInitializer)} '{initializer.GetType().Name}'.", ex);
                 }
             }
         }

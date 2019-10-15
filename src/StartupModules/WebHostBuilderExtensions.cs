@@ -60,12 +60,7 @@ namespace StartupModules
             {
                 services.AddSingleton<IStartupFilter>(sp => ActivatorUtilities.CreateInstance<ModulesStartupFilter>(sp, runner));
 
-                var configureServicesContext = new ConfigureServicesContext
-                {
-                    Configuration = hostContext.Configuration,
-                    HostingEnvironment = hostContext.HostingEnvironment
-                };
-
+                var configureServicesContext = new ConfigureServicesContext(hostContext.Configuration, hostContext.HostingEnvironment);
                 runner.ConfigureServices(services, hostContext.Configuration, hostContext.HostingEnvironment);
             });
 
