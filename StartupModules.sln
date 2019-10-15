@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26124.0
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29318.209
 MinimumVisualStudioVersion = 15.0.26124.0
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{9BF5D119-F23D-4E38-ACBC-E62FF9459BDC}"
 EndProject
@@ -11,7 +11,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{22006F10-F
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestWebApp", "test\TestWebApp\TestWebApp.csproj", "{8E8BB8C2-7392-4724-BC63-D59F00F84874}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StartupModules.Tests", "test\StartupModules.Tests\StartupModules.Tests.csproj", "{1956C266-87A1-4A29-9CAC-C024BE9F087A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StartupModules.Tests", "test\StartupModules.Tests\StartupModules.Tests.csproj", "{1956C266-87A1-4A29-9CAC-C024BE9F087A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{9CE5BB1B-0E26-4A9F-8E32-AEB913E6F6E4}"
+	ProjectSection(SolutionItems) = preProject
+		.appveyor.yml = .appveyor.yml
+		.gitignore = .gitignore
+		.travis.yml = .travis.yml
+		LICENSE = LICENSE
+		NuGet.Config = NuGet.Config
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
