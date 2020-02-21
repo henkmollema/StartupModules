@@ -12,20 +12,12 @@ namespace StartupModules.Internal
     {
         private readonly StartupModuleRunner _runner;
         private readonly IConfiguration _configuration;
-#if NETSTANDARD2_0
-        private readonly IHostingEnvironment _hostingEnvironment;
-#elif NETCOREAPP3_0
         private readonly IWebHostEnvironment _hostingEnvironment;
-#endif
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ModulesStartupFilter"/> class.
         /// </summary>
-#if NETSTANDARD2_0
-        public ModulesStartupFilter(StartupModuleRunner runner, IConfiguration configuration, IHostingEnvironment hostingEnvironment)
-#elif NETCOREAPP3_0
         public ModulesStartupFilter(StartupModuleRunner runner, IConfiguration configuration, IWebHostEnvironment hostingEnvironment)
-#endif
         {
             _runner = runner;
             _configuration = configuration;
