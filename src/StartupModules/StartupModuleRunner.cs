@@ -28,11 +28,7 @@ namespace StartupModules
         /// Calls <see cref="IStartupModule.ConfigureServices(IServiceCollection, ConfigureServicesContext)"/> on the
         /// discoverd <see cref="IStartupModule"/>'s.
         /// </summary>
-#if NETSTANDARD2_0
-        public void ConfigureServices(IServiceCollection services, IConfiguration configuration, IHostingEnvironment hostingEnvironment)
-#elif NETCOREAPP3_0
         public void ConfigureServices(IServiceCollection services, IConfiguration configuration, IWebHostEnvironment hostingEnvironment)
-#endif
         {
             var ctx = new ConfigureServicesContext(configuration, hostingEnvironment);
 
@@ -43,14 +39,10 @@ namespace StartupModules
         }
 
         /// <summary>
-        /// Calls <see cref="IStartupModule.Configure(IApplicationBuilder, ConfigureMiddlewareContext)"/> on the 
+        /// Calls <see cref="IStartupModule.Configure(IApplicationBuilder, ConfigureMiddlewareContext)"/> on the
         /// discovered <see cref="IStartupModule"/>.
         /// </summary>
-#if NETSTANDARD2_0
-        public void Configure(IApplicationBuilder app, IConfiguration configuration, IHostingEnvironment hostingEnvironment)
-#elif NETCOREAPP3_0
         public void Configure(IApplicationBuilder app, IConfiguration configuration, IWebHostEnvironment hostingEnvironment)
-#endif
         {
             using var scope = app.ApplicationServices.CreateScope();
             var ctx = new ConfigureMiddlewareContext(configuration, hostingEnvironment, scope.ServiceProvider);
