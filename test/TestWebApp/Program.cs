@@ -13,7 +13,7 @@ namespace TestWebApp
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-                .UseStartupModules()
+                .UseStartupModules(x => x.Settings["AddHangfire"] = true)
                 .UseStartup<Startup>();
     }
 }

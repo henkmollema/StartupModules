@@ -30,7 +30,7 @@ namespace StartupModules
         /// </summary>
         public void ConfigureServices(IServiceCollection services, IConfiguration configuration, IWebHostEnvironment hostingEnvironment)
         {
-            var ctx = new ConfigureServicesContext(configuration, hostingEnvironment);
+            var ctx = new ConfigureServicesContext(configuration, hostingEnvironment, _options);
 
             foreach (var cfg in _options.StartupModules)
             {
@@ -45,7 +45,7 @@ namespace StartupModules
         public void Configure(IApplicationBuilder app, IConfiguration configuration, IWebHostEnvironment hostingEnvironment)
         {
             using var scope = app.ApplicationServices.CreateScope();
-            var ctx = new ConfigureMiddlewareContext(configuration, hostingEnvironment, scope.ServiceProvider);
+            var ctx = new ConfigureMiddlewareContext(configuration, hostingEnvironment, scope.ServiceProvider, _options);
             foreach (var cfg in _options.StartupModules)
             {
                 cfg.Configure(app, ctx);

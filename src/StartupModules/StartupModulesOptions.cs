@@ -23,6 +23,11 @@ namespace StartupModules
         public ICollection<Type> ApplicationInitializers { get; } = new List<Type>();
 
         /// <summary>
+        /// Gets the settings.
+        /// </summary>
+        public IDictionary<string, object> Settings { get; set; } = new Dictionary<string, object>();
+
+        /// <summary>
         /// Discovers <see cref="IStartupModule"/> implementations from the entry assembly of the application.
         /// </summary>
         public void DiscoverStartupModules() => DiscoverStartupModules(Assembly.GetEntryAssembly()!);

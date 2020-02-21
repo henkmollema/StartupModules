@@ -11,10 +11,11 @@ namespace StartupModules
         /// <summary>
         /// Initializes a new instance of the <see cref="ConfigureServicesContext"/> class.
         /// </summary>
-        public ConfigureServicesContext(IConfiguration configuration, IWebHostEnvironment hostingEnvironment)
+        public ConfigureServicesContext(IConfiguration configuration, IWebHostEnvironment hostingEnvironment, StartupModulesOptions options)
         {
             Configuration = configuration;
             HostingEnvironment = hostingEnvironment;
+            Options = options;
         }
 
         /// <summary>
@@ -26,5 +27,10 @@ namespace StartupModules
         /// Gets the application <see cref="IWebHostEnvironment"/> instance.
         /// </summary>
         public IWebHostEnvironment HostingEnvironment { get; }
+
+        /// <summary>
+        /// Gets the <see cref="StartupModulesOptions"/>.
+        /// </summary>
+        public StartupModulesOptions Options { get; }
     }
 }

@@ -18,7 +18,10 @@ namespace TestWebApp
                 // Do something based on this
             }
 
-            services.AddHangfireContrib(c => c.UseMemoryStorage());
+            if ((bool)context.Options.Settings["AddHangfire"] == true)
+            {
+                services.AddHangfireContrib(c => c.UseMemoryStorage());
+            }
         }
 
         public void Configure(IApplicationBuilder app, ConfigureMiddlewareContext context) { }
