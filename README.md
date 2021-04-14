@@ -9,9 +9,7 @@ Create modular and focused Startup-like classes for each of your application's f
 
 ## Installation
 
-#### StartupModules is [available on NuGet](https://www.nuget.org/packages/StartupModules) for ASP.NET Core 2.2.
-
-> Use the 2.0 builds for .NET Core 3 support.
+#### StartupModules is [available on NuGet](https://www.nuget.org/packages/StartupModules)
 
 ## Getting started
 
