@@ -1,7 +1,6 @@
 language: csharp
 mono: none
-dotnet: 3.1
-dist: xenial
+dotnet: 6.0
 env:
   global:
     - DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
@@ -13,10 +12,3 @@ script:
     - dotnet restore
     - dotnet build
     - dotnet test test/StartupModules.Tests
-matrix:
-  include:
-    - os: linux
-      dist: xenial
-    - os: osx
-      dotnet: 3.1.102
-      osx_image: xcode11.2
