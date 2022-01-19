@@ -1,18 +1,8 @@
-﻿using Microsoft.AspNetCore;
-using Microsoft.AspNetCore.Hosting;
-using StartupModules;
+﻿using StartupModules;
 
-namespace TestWebApp;
+var builder = WebApplication.CreateBuilder(args);
+builder.UseStartupModules();
+var app = builder.Build();
 
-public class Program
-{
-    public static void Main(string[] args)
-    {
-        CreateWebHostBuilder(args).Build().Run();
-    }
-
-    public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-        WebHost.CreateDefaultBuilder(args)
-            .UseStartupModules(x => x.Settings["AddHangfire"] = true)
-            .UseStartup<Startup>();
-}
+app.MapGet("/", () => "Hello, World!");
+app.Run();
