@@ -8,7 +8,7 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <PackageTags>aspnetcore;startup;dependency injection;modules;modular</PackageTags>
     <PackageProjectUrl>https://github.com/henkmollema/StartupModules</PackageProjectUrl>
-    <PackageLicenseUrl>https://github.com/henkmollema/StartupModules/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <RepositoryType>git</RepositoryType>
     <RepositoryUrl>https://github.com/henkmollema/StartupModules</RepositoryUrl>
     <DebugType>embedded</DebugType>
