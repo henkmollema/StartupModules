@@ -6,83 +6,82 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace StartupModules
+namespace StartupModules;
+
+/// <summary>
+/// A runner for <see cref="IStartupModule"/>'s discoverd via <see cref="StartupModulesOptions"/>.
+/// </summary>
+public class StartupModuleRunner
 {
+    private readonly StartupModulesOptions _options;
+
     /// <summary>
-    /// A runner for <see cref="IStartupModule"/>'s discoverd via <see cref="StartupModulesOptions"/>.
+    /// Initializes a new instance of the <see cref="StartupModuleRunner"/> class.
     /// </summary>
-    public class StartupModuleRunner
+    /// <param name="options">The <see cref="StartupModulesOptions"/> to discover <see cref="IStartupModule"/>'s.</param>
+    public StartupModuleRunner(StartupModulesOptions options)
     {
-        private readonly StartupModulesOptions _options;
+        _options = options;
+    }
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="StartupModuleRunner"/> class.
-        /// </summary>
-        /// <param name="options">The <see cref="StartupModulesOptions"/> to discover <see cref="IStartupModule"/>'s.</param>
-        public StartupModuleRunner(StartupModulesOptions options)
+    /// <summary>
+    /// Calls <see cref="IStartupModule.ConfigureServices(IServiceCollection, ConfigureServicesContext)"/> on the
+    /// discoverd <see cref="IStartupModule"/>'s.
+    /// </summary>
+    public void ConfigureServices(IServiceCollection services, IConfiguration configuration, IWebHostEnvironment hostingEnvironment)
+    {
+        var ctx = new ConfigureServicesContext(configuration, hostingEnvironment, _options);
+
+        foreach (var cfg in _options.StartupModules)
         {
-            _options = options;
+            cfg.ConfigureServices(services, ctx);
         }
+    }
 
-        /// <summary>
-        /// Calls <see cref="IStartupModule.ConfigureServices(IServiceCollection, ConfigureServicesContext)"/> on the
-        /// discoverd <see cref="IStartupModule"/>'s.
-        /// </summary>
-        public void ConfigureServices(IServiceCollection services, IConfiguration configuration, IWebHostEnvironment hostingEnvironment)
+    /// <summary>
+    /// Calls <see cref="IStartupModule.Configure(IApplicationBuilder, ConfigureMiddlewareContext)"/> on the
+    /// discovered <see cref="IStartupModule"/>.
+    /// </summary>
+    public void Configure(IApplicationBuilder app, IConfiguration configuration, IWebHostEnvironment hostingEnvironment)
+    {
+        using var scope = app.ApplicationServices.CreateScope();
+        var ctx = new ConfigureMiddlewareContext(configuration, hostingEnvironment, scope.ServiceProvider, _options);
+        foreach (var cfg in _options.StartupModules)
         {
-            var ctx = new ConfigureServicesContext(configuration, hostingEnvironment, _options);
-
-            foreach (var cfg in _options.StartupModules)
-            {
-                cfg.ConfigureServices(services, ctx);
-            }
+            cfg.Configure(app, ctx);
         }
+    }
 
-        /// <summary>
-        /// Calls <see cref="IStartupModule.Configure(IApplicationBuilder, ConfigureMiddlewareContext)"/> on the
-        /// discovered <see cref="IStartupModule"/>.
-        /// </summary>
-        public void Configure(IApplicationBuilder app, IConfiguration configuration, IWebHostEnvironment hostingEnvironment)
-        {
-            using var scope = app.ApplicationServices.CreateScope();
-            var ctx = new ConfigureMiddlewareContext(configuration, hostingEnvironment, scope.ServiceProvider, _options);
-            foreach (var cfg in _options.StartupModules)
-            {
-                cfg.Configure(app, ctx);
-            }
-        }
-
-        /// <summary>
-        /// Invokes the discovered <see cref="IApplicationInitializer"/> instances.
-        /// </summary>
-        /// <param name="serviceProvider">The application's root service provider.</param>
-        public async Task RunApplicationInitializers(IServiceProvider serviceProvider)
-        {
-            using var scope = serviceProvider.CreateScope();
-            var applicationInitializers = _options.ApplicationInitializers
-                .Select(t =>
-                {
-                    try
-                    {
-                        return ActivatorUtilities.CreateInstance(scope.ServiceProvider, t);
-                    }
-                    catch (Exception ex)
-                    {
-                        throw new InvalidOperationException($"Failed to create instace of {nameof(IApplicationInitializer)} '{t.Name}'.", ex);
-                    }
-                })
-                .Cast<IApplicationInitializer>();
-
-            foreach (var initializer in applicationInitializers)
+    /// <summary>
+    /// Invokes the discovered <see cref="IApplicationInitializer"/> instances.
+    /// </summary>
+    /// <param name="serviceProvider">The application's root service provider.</param>
+    public async Task RunApplicationInitializers(IServiceProvider serviceProvider)
+    {
+        using var scope = serviceProvider.CreateScope();
+        var applicationInitializers = _options.ApplicationInitializers
+            .Select(t =>
             {
                 try
                 {
-                    await initializer.Invoke();
+                    return ActivatorUtilities.CreateInstance(scope.ServiceProvider, t);
                 }
                 catch (Exception ex)
                 {
-                    throw new InvalidOperationException($"An exception occured during the execution of {nameof(IApplicationInitializer)} '{initializer.GetType().Name}'.", ex);
+                    throw new InvalidOperationException($"Failed to create instace of {nameof(IApplicationInitializer)} '{t.Name}'.", ex);
                 }
+            })
+            .Cast<IApplicationInitializer>();
+
+        foreach (var initializer in applicationInitializers)
+        {
+            try
+            {
+                await initializer.Invoke();
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidOperationException($"An exception occured during the execution of {nameof(IApplicationInitializer)} '{initializer.GetType().Name}'.", ex);
             }
         }
     }

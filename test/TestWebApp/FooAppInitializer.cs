@@ -1,13 +1,12 @@
 ﻿using System.Threading.Tasks;
 using StartupModules;
 
-namespace TestWebApp
+namespace TestWebApp;
+
+public class FooAppInitializer : IApplicationInitializer
 {
-    public class FooAppInitializer : IApplicationInitializer
+    public Task Invoke()
     {
-        public Task Invoke()
-        {
-            return Task.CompletedTask;
-        }
+        return Task.CompletedTask;
     }
 }
