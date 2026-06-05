@@ -22,7 +22,9 @@ public class StartupModulesOptionsTests
     public void AddStartupModule_FromType()
     {
         var options = new StartupModulesOptions();
+#pragma warning disable CA2263 // Prefer generic overload when type is known
         options.AddStartupModule(typeof(FooStartupModule));
+#pragma warning restore CA2263 // Prefer generic overload when type is known
 
         var module = Assert.Single(options.StartupModules);
         Assert.IsType<FooStartupModule>(module);
@@ -85,10 +87,10 @@ public class StartupModulesOptionsTests
     }
 
     // Internal to avoid automatic discovery
-    internal class StartupModuleWithCtor : IStartupModule
+#pragma warning disable CS9113 // Parameter is unread.
+    internal class StartupModuleWithCtor(object _) : IStartupModule
+#pragma warning restore CS9113 // Parameter is unread.
     {
-        public StartupModuleWithCtor(object _) { }
-
         public void Configure(IApplicationBuilder app, ConfigureMiddlewareContext context) => throw new NotImplementedException();
         public void ConfigureServices(IServiceCollection services, ConfigureServicesContext context) => throw new NotImplementedException();
     }

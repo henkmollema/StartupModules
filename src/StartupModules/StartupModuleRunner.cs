@@ -11,28 +11,18 @@ namespace StartupModules;
 /// <summary>
 /// A runner for <see cref="IStartupModule"/>'s discoverd via <see cref="StartupModulesOptions"/>.
 /// </summary>
-public class StartupModuleRunner
+/// <param name="options">The <see cref="StartupModulesOptions"/> to discover <see cref="IStartupModule"/>'s.</param>
+public class StartupModuleRunner(StartupModulesOptions options)
 {
-    private readonly StartupModulesOptions _options;
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="StartupModuleRunner"/> class.
-    /// </summary>
-    /// <param name="options">The <see cref="StartupModulesOptions"/> to discover <see cref="IStartupModule"/>'s.</param>
-    public StartupModuleRunner(StartupModulesOptions options)
-    {
-        _options = options;
-    }
-
     /// <summary>
     /// Calls <see cref="IStartupModule.ConfigureServices(IServiceCollection, ConfigureServicesContext)"/> on the
     /// discoverd <see cref="IStartupModule"/>'s.
     /// </summary>
     public void ConfigureServices(IServiceCollection services, IConfiguration configuration, IWebHostEnvironment hostingEnvironment)
     {
-        var ctx = new ConfigureServicesContext(configuration, hostingEnvironment, _options);
+        var ctx = new ConfigureServicesContext(configuration, hostingEnvironment, options);
 
-        foreach (var cfg in _options.StartupModules)
+        foreach (var cfg in options.StartupModules)
         {
             cfg.ConfigureServices(services, ctx);
         }
@@ -45,8 +35,8 @@ public class StartupModuleRunner
     public void Configure(IApplicationBuilder app, IConfiguration configuration, IWebHostEnvironment hostingEnvironment)
     {
         using var scope = app.ApplicationServices.CreateScope();
-        var ctx = new ConfigureMiddlewareContext(configuration, hostingEnvironment, scope.ServiceProvider, _options);
-        foreach (var cfg in _options.StartupModules)
+        var ctx = new ConfigureMiddlewareContext(configuration, hostingEnvironment, scope.ServiceProvider, options);
+        foreach (var cfg in options.StartupModules)
         {
             cfg.Configure(app, ctx);
         }
@@ -59,7 +49,7 @@ public class StartupModuleRunner
     public async Task RunApplicationInitializers(IServiceProvider serviceProvider)
     {
         using var scope = serviceProvider.CreateScope();
-        var applicationInitializers = _options.ApplicationInitializers
+        var applicationInitializers = options.ApplicationInitializers
             .Select(t =>
             {
                 try

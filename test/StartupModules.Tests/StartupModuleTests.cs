@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,7 +13,7 @@ public class StartupModuleTests
     [Fact]
     public async Task ConfiguresContext()
     {
-        var hostBuilder = CreateBuilder().UseStartupModules(o => o.AddStartupModule<FooStartupModule>());
+        var hostBuilder = CreateBuilder(x => x.UseStartupModules(o => o.AddStartupModule<FooStartupModule>()));
         using var host = hostBuilder.Build();
         await host.StartAsync();
         await host.StopAsync();
@@ -21,7 +22,7 @@ public class StartupModuleTests
     [Fact]
     public async Task DiscoversFromSpecifiedAssembly()
     {
-        var hostBuilder = CreateBuilder().UseStartupModules(o => o.DiscoverStartupModules(typeof(FooStartupModule).Assembly));
+        var hostBuilder = CreateBuilder(x => x.UseStartupModules(o => o.DiscoverStartupModules(typeof(FooStartupModule).Assembly)));
         using var host = hostBuilder.Build();
         await host.StartAsync();
         await host.StopAsync();
@@ -31,7 +32,7 @@ public class StartupModuleTests
     public async Task DiscoversFromEntryAssembly()
     {
         // Equivalent of calling UseStartupModules()
-        var hostBuilder = CreateBuilder().UseStartupModules(o => o.DiscoverStartupModules());
+        var hostBuilder = CreateBuilder(x => x.UseStartupModules(o => o.DiscoverStartupModules()));
         using var host = hostBuilder.Build();
         await host.StartAsync();
         await host.StopAsync();
@@ -41,13 +42,18 @@ public class StartupModuleTests
     public async Task DiscoversFromEntryAssemblyWithDefaultMethod()
     {
         // Equivalent of calling UseStartupModules()
-        var hostBuilder = CreateBuilder().UseStartupModules();
+        var hostBuilder = CreateBuilder(x => x.UseStartupModules());
         using var host = hostBuilder.Build();
         await host.StartAsync();
         await host.StopAsync();
     }
 
-    private IWebHostBuilder CreateBuilder() => new WebHostBuilder().UseKestrel().Configure(_ => { });
+    private static IHostBuilder CreateBuilder(Action<IWebHostBuilder> configureWebHost) => new HostBuilder().ConfigureWebHost(x =>
+    {
+        x.UseKestrelCore();
+        x.Configure(_ => { });
+        configureWebHost(x);
+    });
 
     public class FooStartupModule : IStartupModule
     {

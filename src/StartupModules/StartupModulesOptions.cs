@@ -15,12 +15,12 @@ public class StartupModulesOptions
     /// <summary>
     /// Gets a collection of <see cref="IStartupModule"/> instances to configure the application with.
     /// </summary>
-    public ICollection<IStartupModule> StartupModules { get; } = new List<IStartupModule>();
+    public ICollection<IStartupModule> StartupModules { get; } = [];
 
     /// <summary>
     /// Gets a collection of <see cref="IApplicationInitializer"/> types to initialize the application with.
     /// </summary>
-    public ICollection<Type> ApplicationInitializers { get; } = new List<Type>();
+    public ICollection<Type> ApplicationInitializers { get; } = [];
 
     /// <summary>
     /// Gets the settings.

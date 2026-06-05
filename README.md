@@ -85,4 +85,4 @@ public class DatabaseInitializer : IApplicationInitializer
 }
 ```
 
-You can specify any number of dependencies available in your application via the constructor of an application initializer. The dependencies will be resolved from a **scoped** service provider instance and will be disposed after application startup. This prevents common pitfalls such as a resolving a singleton database context and leaking its connection for the lifetime off the application and avoids the hassle of creating a service provider scope yourself.
+You can specify any number of dependencies available in your application via the constructor of an application initializer. The dependencies will be resolved from a **scoped** service provider instance and will be disposed after application startup. This prevents common pitfalls such as a resolving a singleton database context and leaking its connection for the lifetime of the application and avoids the hassle of creating a service provider scope yourself.
